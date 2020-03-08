@@ -6,7 +6,9 @@
 
 
     <data>
-
+        <variable
+            name="launcherFragmentViewModel"
+            type="com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel" />
     </data>
 
 
@@ -31,5 +33,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/response_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="some string lorem ipsum" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

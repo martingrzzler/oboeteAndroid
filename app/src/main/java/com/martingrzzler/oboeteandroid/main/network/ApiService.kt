@@ -10,6 +10,6 @@ import retrofit2.http.Path
 interface ApiService{
 
     @GET("search/{query}")
-    fun getWord(@Path("query")query: String) : Call<DataResponse>
+    suspend fun getWord(@Path("query")query: String) : DataResponse
 
 }

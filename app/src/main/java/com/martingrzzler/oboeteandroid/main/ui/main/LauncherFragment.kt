@@ -1,24 +1,22 @@
 package com.martingrzzler.oboeteandroid.main.ui.main
 
-import android.app.SearchManager
-
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.martingrzzler.oboeteandroid.R
 import com.martingrzzler.oboeteandroid.databinding.FragmentLauncherBinding
-import com.martingrzzler.oboeteandroid.main.model.DataResponse
-import com.martingrzzler.oboeteandroid.main.network.Retrofit
-import retrofit2.Call
-import retrofit2.Response
+import com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel
+import kotlinx.android.synthetic.main.fragment_launcher.*
+
 
 
 class LauncherFragment : Fragment() {
 
+    lateinit var viewModel: LauncherFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,35 +25,29 @@ class LauncherFragment : Fragment() {
         val binding = FragmentLauncherBinding.inflate(inflater)
         setHasOptionsMenu(true)
 
+        viewModel = ViewModelProvider(this).get(LauncherFragmentViewModel::class.java)
+        binding.launcherFragmentViewModel = viewModel
+        binding.lifecycleOwner = this
+
+
+
         return binding.root
     }
 
-    private fun testRetrofitRequest(query: String) {
 
-        val responseCall = Retrofit.apiService.getWord(query)
-        responseCall.enqueue(object : retrofit2.Callback<DataResponse> {
-            override fun onFailure(call: Call<DataResponse>, t: Throwable) {
-                Toast.makeText(activity, t.toString(), Toast.LENGTH_LONG).show()
-                Log.i("LauncherFragment", t.toString())
-            }
-
-            override fun onResponse(call: Call<DataResponse>, response: Response<DataResponse>) {
-                Toast.makeText(activity, response.body().toString(), Toast.LENGTH_LONG).show()
-                Log.i("LauncherFragment", response.body().toString())
-            }
-        })
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu, menu)
-        val manager = activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        val manager = activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchItem = menu.findItem(R.id.search_bar)
         val searchView = searchItem?.actionView as SearchView
 
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                testRetrofitRequest(query!!)
+                viewModel.makeQueryCallUserInput(query!!).observe(viewLifecycleOwner, Observer {
+                    response_text.text = it.toString()
+                })
                 return true
             }
 
