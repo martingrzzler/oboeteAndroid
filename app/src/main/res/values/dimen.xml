@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="word_item_text_size_">20sp</dimen>
+    <dimen name="word_item_inner_padding">10dp</dimen>
+    <dimen name="word_item_text_size_translations">15sp</dimen>
+</resources>

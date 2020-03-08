@@ -1,22 +1,24 @@
 package com.martingrzzler.oboeteandroid.main.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.martingrzzler.oboeteandroid.main.model.Word
 import com.martingrzzler.oboeteandroid.main.repositories.WordRepository
-import kotlinx.coroutines.Dispatchers
+import java.io.IOException
+
 
 class LauncherFragmentViewModel : ViewModel() {
-
-
-    var repo: WordRepository = WordRepository()
+    private val repo: WordRepository = WordRepository()
 
 
     fun makeQueryCallUserInput(query: String) = liveData {
-        val data = repo.makeQueryCall(query)
-        emit(data.data)
+        try {
+            val result = repo.makeQueryCall(query)
+            emit(result.data)
+        } catch (e: IOException) {
+            Log.i("LauncherFragmentVM", "There was an Error with the connection: ${e.message}")
+        }
+
     }
 
 }

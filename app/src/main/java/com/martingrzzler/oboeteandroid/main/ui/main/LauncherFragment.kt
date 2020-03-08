@@ -7,16 +7,19 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.martingrzzler.oboeteandroid.R
 import com.martingrzzler.oboeteandroid.databinding.FragmentLauncherBinding
+import com.martingrzzler.oboeteandroid.main.adapters.SearchWordRecyclerViewAdapter
 import com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_launcher.*
 
 
-
 class LauncherFragment : Fragment() {
 
-    lateinit var viewModel: LauncherFragmentViewModel
+    private lateinit var viewModel: LauncherFragmentViewModel
+    lateinit var searchWordAdaper: SearchWordRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +32,7 @@ class LauncherFragment : Fragment() {
         binding.launcherFragmentViewModel = viewModel
         binding.lifecycleOwner = this
 
+        initRecyclerView(binding.resultRecyclerView)
 
 
         return binding.root
@@ -45,8 +49,10 @@ class LauncherFragment : Fragment() {
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.makeQueryCallUserInput(query!!).observe(viewLifecycleOwner, Observer {
-                    response_text.text = it.toString()
+                viewModel.makeQueryCallUserInput(query!!).observe(viewLifecycleOwner, Observer {words ->
+                    oboete_logo.visibility = View.INVISIBLE
+                    resultRecyclerView.visibility = View.VISIBLE
+                    searchWordAdaper.submitList(words)
                 })
                 return true
             }
@@ -58,6 +64,15 @@ class LauncherFragment : Fragment() {
 
         })
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun initRecyclerView(recyclerView: RecyclerView) {
+        searchWordAdaper = SearchWordRecyclerViewAdapter()
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = searchWordAdaper
+
+        }
     }
 
 }

@@ -9,6 +9,7 @@
         <variable
             name="launcherFragmentViewModel"
             type="com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel" />
+        <import type="android.view.View"/>
     </data>
 
 
@@ -19,12 +20,18 @@
         tools:context=".main.ui.main.LauncherFragment">
 
 
-
-
-
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/oboete_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/logo_heading"
@@ -33,12 +40,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/response_text"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/resultRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="some string lorem ipsum" />
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="33dp"
+            tools:layout_editor_absoluteY="1dp"
+            android:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
