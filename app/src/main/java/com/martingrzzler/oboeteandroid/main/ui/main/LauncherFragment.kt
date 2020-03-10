@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_launcher.*
 class LauncherFragment : Fragment() {
 
     private lateinit var viewModel: LauncherFragmentViewModel
-    lateinit var searchWordAdaper: SearchWordRecyclerViewAdapter
+    lateinit var searchWordAdapter: SearchWordRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,15 +44,26 @@ class LauncherFragment : Fragment() {
         inflater.inflate(R.menu.search_menu, menu)
 //        val manager = activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchItem = menu.findItem(R.id.search_bar)
-        val searchView = searchItem?.actionView as SearchView
 
+        searchItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                oboete_logo.visibility = View.VISIBLE
+                resultRecyclerView.visibility = View.INVISIBLE
+                return true
+            }
+        })
+        val searchView = searchItem?.actionView as SearchView
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.makeQueryCallUserInput(query!!).observe(viewLifecycleOwner, Observer {words ->
                     oboete_logo.visibility = View.INVISIBLE
                     resultRecyclerView.visibility = View.VISIBLE
-                    searchWordAdaper.submitList(words)
+                    searchWordAdapter.submitList(words)
                 })
                 return true
             }
@@ -67,10 +78,10 @@ class LauncherFragment : Fragment() {
     }
 
     private fun initRecyclerView(recyclerView: RecyclerView) {
-        searchWordAdaper = SearchWordRecyclerViewAdapter()
+        searchWordAdapter = SearchWordRecyclerViewAdapter()
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = searchWordAdaper
+            adapter = searchWordAdapter
 
         }
     }

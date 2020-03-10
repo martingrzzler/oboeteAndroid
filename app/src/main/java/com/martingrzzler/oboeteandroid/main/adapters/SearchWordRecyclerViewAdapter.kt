@@ -67,8 +67,6 @@ class SearchWordRecyclerViewAdapter(private val interaction: Interaction? = null
             }
             itemView.word_item_word.text = item.word
             itemView.word_item_reading.text = item.reading
-            item.translation.toString()
-
             itemView.word_item_translations.text = formatTranslationList(item.translation)
         }
 
