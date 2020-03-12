@@ -1,8 +1,11 @@
 package com.martingrzzler.oboeteandroid.main.viewmodels
 
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.recyclerview.widget.RecyclerView
 import com.martingrzzler.oboeteandroid.main.repositories.WordRepository
 import java.io.IOException
 
@@ -20,5 +23,6 @@ class LauncherFragmentViewModel : ViewModel() {
         }
 
     }
+
 
 }

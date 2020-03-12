@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.martingrzzler.oboeteandroid.R
 import com.martingrzzler.oboeteandroid.databinding.FragmentLauncherBinding
 import com.martingrzzler.oboeteandroid.main.adapters.SearchWordRecyclerViewAdapter
+import com.martingrzzler.oboeteandroid.main.model.Word
 import com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_launcher.*
 
@@ -33,30 +34,14 @@ class LauncherFragment : Fragment() {
         binding.lifecycleOwner = this
 
         initRecyclerView(binding.resultRecyclerView)
+        initSearchView(binding.searchView)
 
 
         return binding.root
     }
 
+    private fun initSearchView(searchView: SearchView) {
 
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-//        val manager = activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchItem = menu.findItem(R.id.search_bar)
-
-        searchItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                return true
-            }
-
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                oboete_logo.visibility = View.VISIBLE
-                resultRecyclerView.visibility = View.INVISIBLE
-                return true
-            }
-        })
-        val searchView = searchItem?.actionView as SearchView
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -64,17 +49,20 @@ class LauncherFragment : Fragment() {
                     oboete_logo.visibility = View.INVISIBLE
                     resultRecyclerView.visibility = View.VISIBLE
                     searchWordAdapter.submitList(words)
+
                 })
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Log.i("LauncherFragment", "newText: $newText")
+                if (newText =="") {
+                    oboete_logo.visibility = View.VISIBLE
+                    resultRecyclerView.visibility = View.INVISIBLE
+                }
                 return true
             }
 
         })
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun initRecyclerView(recyclerView: RecyclerView) {
