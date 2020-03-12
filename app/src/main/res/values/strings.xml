@@ -1,9 +1,4 @@
 <resources>
     <string name="app_name">oboete</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search">Search</string>
-    <string name="search_label">oboete</string>
-    <string name="search_hint_text">Search Kana, Romaji or Kanji</string>
+    <string name="search_empty_list_message">Sorry! Couldn\'t find that. Make sure you have no typos.</string>
 </resources>
