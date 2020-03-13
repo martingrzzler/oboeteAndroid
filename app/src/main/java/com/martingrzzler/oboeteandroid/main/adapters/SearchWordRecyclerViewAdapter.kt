@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.martingrzzler.oboeteandroid.R
 import com.martingrzzler.oboeteandroid.main.model.Word
+import com.martingrzzler.oboeteandroid.main.util.SearchWordAdapter.Companion.formatTranslationList
 import kotlinx.android.synthetic.main.layout_word_list_item.view.*
 
 class SearchWordRecyclerViewAdapter(private val interaction: Interaction? = null) :
@@ -114,16 +115,7 @@ class SearchWordRecyclerViewAdapter(private val interaction: Interaction? = null
             itemView.word_item_translations.text = formatTranslationList(item.translation)
         }
 
-        private fun formatTranslationList(list: List<String>?): String {
-           val listString = list.toString().replace("[","").replace("]","")
-            return if(listString.length > 50) {
-                listString.substring(0, 49) + "..."
-            } else {
-                listString
-            }
 
-
-        }
     }
 
 
