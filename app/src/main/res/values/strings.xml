@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">oboete</string>
     <string name="search_empty_list_message">Sorry! Couldn\'t find that. Make sure you have no typos.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

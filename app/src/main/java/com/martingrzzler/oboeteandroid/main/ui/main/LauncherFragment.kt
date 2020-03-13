@@ -14,12 +14,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.martingrzzler.oboeteandroid.databinding.FragmentLauncherBinding
 import com.martingrzzler.oboeteandroid.main.adapters.SearchWordRecyclerViewAdapter
+import com.martingrzzler.oboeteandroid.main.di.ViewModelProviderFactory
 import com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel
 import com.martingrzzler.oboeteandroid.main.viewmodels.ResponseState
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_launcher.*
+import javax.inject.Inject
 
 
-class LauncherFragment : Fragment() {
+class LauncherFragment : DaggerFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProviderFactory
 
     private lateinit var viewModel: LauncherFragmentViewModel
     lateinit var searchWordAdapter: SearchWordRecyclerViewAdapter
@@ -29,10 +35,9 @@ class LauncherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentLauncherBinding.inflate(inflater)
-        setHasOptionsMenu(true)
 
         // inject viewmodel
-        viewModel = ViewModelProvider(this).get(LauncherFragmentViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LauncherFragmentViewModel::class.java)
         binding.launcherFragmentViewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -65,6 +70,9 @@ class LauncherFragment : Fragment() {
                     oboete_logo.visibility = View.VISIBLE
                     resultRecyclerView.visibility = View.INVISIBLE
                 }
+                if(resultRecyclerView.visibility == View.VISIBLE) {
+                    resultRecyclerView.visibility = View.INVISIBLE
+                }
                 return true
             }
 
@@ -88,11 +96,11 @@ class LauncherFragment : Fragment() {
                     Snackbar.make(coordinator, "Check your Connection. There a Network Error!", Snackbar.LENGTH_LONG).show()
                 }
                 ResponseState.LOADING -> {
-                    progressbar.visibility = View.VISIBLE
+                    progressBar.visibility = View.VISIBLE
                 }
 
                 ResponseState.DONE -> {
-                    progressbar.visibility = View.INVISIBLE
+                    progressBar.visibility = View.INVISIBLE
                 }
                 else -> {
                     Log.i("LauncherFragment", "apiStatus was NULL")

@@ -7,13 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.martingrzzler.oboeteandroid.main.repositories.WordRepository
 import java.io.IOException
+import javax.inject.Inject
 
 enum class ResponseState{LOADING, ERROR, DONE}
 
-class LauncherFragmentViewModel : ViewModel() {
-    private val repo: WordRepository = WordRepository()
-
-
+class LauncherFragmentViewModel @Inject constructor(val repository: WordRepository): ViewModel() {
 
     private val _apiStatus = MutableLiveData<ResponseState>()
     val apiStatus: LiveData<ResponseState> get() = _apiStatus
@@ -22,7 +20,7 @@ class LauncherFragmentViewModel : ViewModel() {
     fun makeQueryCallUserInput(query: String) = liveData {
         try {
             _apiStatus.value = ResponseState.LOADING
-            val result = repo.makeQueryCall(query)
+            val result = repository.makeQueryCall(query)
             _apiStatus.value = ResponseState.DONE
             emit(result.data)
         } catch (e: IOException) {

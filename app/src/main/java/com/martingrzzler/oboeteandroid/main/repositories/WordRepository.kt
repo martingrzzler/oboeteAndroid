@@ -2,13 +2,10 @@ package com.martingrzzler.oboeteandroid.main.repositories
 
 import com.martingrzzler.oboeteandroid.main.model.DataResponse
 import com.martingrzzler.oboeteandroid.main.network.ApiService
-import com.martingrzzler.oboeteandroid.main.network.Retrofit
+import javax.inject.Inject
 
 
-class WordRepository {
-
-
-   private var client: ApiService = Retrofit.apiService
+class WordRepository @Inject constructor(val client: ApiService){
 
     suspend fun makeQueryCall(query: String): DataResponse = client.getWord(query)
 
