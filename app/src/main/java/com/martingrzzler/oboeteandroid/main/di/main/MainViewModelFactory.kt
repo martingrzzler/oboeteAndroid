@@ -1,11 +1,13 @@
-package com.martingrzzler.oboeteandroid.main.di
+package com.martingrzzler.oboeteandroid.main.di.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.martingrzzler.oboeteandroid.main.di.scopes.MainScope
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ViewModelProviderFactory
+@MainScope
+class MainViewModelFactory
 @Inject
 constructor(
     private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>

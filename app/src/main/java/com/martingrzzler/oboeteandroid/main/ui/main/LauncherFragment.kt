@@ -1,5 +1,6 @@
 package com.martingrzzler.oboeteandroid.main.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -14,21 +15,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.martingrzzler.oboeteandroid.databinding.FragmentLauncherBinding
 import com.martingrzzler.oboeteandroid.main.adapters.SearchWordRecyclerViewAdapter
-import com.martingrzzler.oboeteandroid.main.di.ViewModelProviderFactory
+import com.martingrzzler.oboeteandroid.main.di.scopes.MainScope
 import com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel
 import com.martingrzzler.oboeteandroid.main.viewmodels.ResponseState
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_launcher.*
 import javax.inject.Inject
 
-
-class LauncherFragment : DaggerFragment() {
-
+@MainScope
+class LauncherFragment : Fragment() {
     @Inject
-    lateinit var viewModelFactory: ViewModelProviderFactory
-
-    private lateinit var viewModel: LauncherFragmentViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModel: LauncherFragmentViewModel
     lateinit var searchWordAdapter: SearchWordRecyclerViewAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -2,24 +2,20 @@ package com.martingrzzler.oboeteandroid.main.di
 
 import android.app.Application
 import com.martingrzzler.oboeteandroid.main.BaseApplication
+import com.martingrzzler.oboeteandroid.main.di.main.MainComponent
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AndroidSupportInjectionModule::class,
-        AndroidInjectionModule::class,
         AppModule::class,
-        ActivityBuildersModule::class,
-        ViewModelFactoryModule::class
+        SubComponentsModule::class
     ]
 )
-interface AppComponent : AndroidInjector<BaseApplication>{
+interface AppComponent  {
+
 
     @Component.Builder
     interface Builder{
@@ -29,4 +25,7 @@ interface AppComponent : AndroidInjector<BaseApplication>{
 
         fun build(): AppComponent
     }
+
+    fun mainComponent(): MainComponent.Factory
+
 }

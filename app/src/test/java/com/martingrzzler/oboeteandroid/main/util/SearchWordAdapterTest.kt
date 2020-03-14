@@ -1,11 +1,9 @@
 package com.martingrzzler.oboeteandroid.main.util
 
 
-import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+
 
 
 internal class SearchWordAdapterTest{

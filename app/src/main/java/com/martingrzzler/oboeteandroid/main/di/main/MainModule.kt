@@ -8,14 +8,16 @@ import dagger.Provides
 import retrofit2.Retrofit
 
 @Module
-class MainModule{
+object MainModule{
 
+    @JvmStatic
     @MainScope
     @Provides
     fun provideMainApiService(retrofit: Retrofit): ApiService {
        return retrofit.create(ApiService::class.java)
     }
 
+    @JvmStatic
     @MainScope
     @Provides
     fun provideWordRepository(client: ApiService): WordRepository {
