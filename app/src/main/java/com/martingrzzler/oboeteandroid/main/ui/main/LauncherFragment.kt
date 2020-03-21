@@ -5,24 +5,29 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.martingrzzler.oboeteandroid.databinding.FragmentLauncherBinding
+import com.martingrzzler.oboeteandroid.main.adapters.Interaction
 import com.martingrzzler.oboeteandroid.main.adapters.SearchWordRecyclerViewAdapter
 import com.martingrzzler.oboeteandroid.main.di.scopes.MainScope
+import com.martingrzzler.oboeteandroid.main.model.Word
 import com.martingrzzler.oboeteandroid.main.viewmodels.LauncherFragmentViewModel
 import com.martingrzzler.oboeteandroid.main.viewmodels.ResponseState
 import kotlinx.android.synthetic.main.fragment_launcher.*
+import kotlinx.android.synthetic.main.fragment_word_detail.*
 import javax.inject.Inject
 
 @MainScope
-class LauncherFragment : Fragment() {
+class LauncherFragment : Fragment(), Interaction {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
@@ -84,13 +89,19 @@ class LauncherFragment : Fragment() {
     }
 
     private fun initRecyclerView(recyclerView: RecyclerView) {
-        searchWordAdapter = SearchWordRecyclerViewAdapter()
+        searchWordAdapter = SearchWordRecyclerViewAdapter(this)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = searchWordAdapter
 
         }
     }
+
+    override fun onItemSelected(position: Int, item: Word) {
+        val action = LauncherFragmentDirections.actionLauncherFragmentToWordDetailFragment(item)
+        findNavController().navigate(action)
+    }
+
 
     private fun handleApiState(progressBar: ProgressBar, coordinator: CoordinatorLayout) {
         // Observe apiStatus

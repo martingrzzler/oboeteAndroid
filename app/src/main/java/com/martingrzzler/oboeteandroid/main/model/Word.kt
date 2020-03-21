@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Word(
 
-    val word: String?,
+    var word: String?,
 
     val reading: String?,
 

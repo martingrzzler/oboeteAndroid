@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.martingrzzler.oboeteandroid.R
@@ -39,7 +40,6 @@ class SearchWordRecyclerViewAdapter(private val interaction: Interaction? = null
         when(viewType){
 
             NOT_FOUND_TYPE ->{
-
                 return GenericViewHolder(
                     LayoutInflater.from(parent.context).inflate(
                         R.layout.layout_word_list_empty,
@@ -110,6 +110,9 @@ class SearchWordRecyclerViewAdapter(private val interaction: Interaction? = null
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
+            if(item.word == null) {
+                item.word = item.reading
+            }
             itemView.word_item_word.text = item.word
             itemView.word_item_reading.text = item.reading
             itemView.word_item_translations.text = formatTranslationList(item.translation)
@@ -118,11 +121,8 @@ class SearchWordRecyclerViewAdapter(private val interaction: Interaction? = null
 
     }
 
+}
 
-
-    interface Interaction {
-        fun onItemSelected(position: Int, item: Word)
-    }
-
-
+interface Interaction {
+    fun onItemSelected(position: Int, item: Word)
 }

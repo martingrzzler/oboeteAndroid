@@ -9,5 +9,24 @@
         android:id="@+id/launcherFragment"
         android:name="com.martingrzzler.oboeteandroid.main.ui.main.LauncherFragment"
         android:label="fragment_launcher"
-        tools:layout="@layout/fragment_launcher" />
+        tools:layout="@layout/fragment_launcher" >
+        <action
+            android:id="@+id/action_launcherFragment_to_wordDetailFragment"
+            app:destination="@id/wordDetailFragment">
+
+            <argument
+                android:name="word"
+                app:argType="com.martingrzzler.oboeteandroid.main.model.Word"/>
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/wordDetailFragment"
+        android:name="com.martingrzzler.oboeteandroid.main.ui.main.WordDetailFragment"
+        android:label="WordDetailFragment">
+
+        <argument
+            android:name="word"
+            app:argType="com.martingrzzler.oboeteandroid.main.model.Word"/>
+    </fragment>
 </navigation>
