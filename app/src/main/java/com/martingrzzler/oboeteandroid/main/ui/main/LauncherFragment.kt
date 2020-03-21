@@ -1,11 +1,12 @@
 package com.martingrzzler.oboeteandroid.main.ui.main
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.view.animation.Animation
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
@@ -33,6 +34,7 @@ class LauncherFragment : Fragment(), Interaction {
     @Inject
     lateinit var viewModel: LauncherFragmentViewModel
     lateinit var searchWordAdapter: SearchWordRecyclerViewAdapter
+    private lateinit var animator: ObjectAnimator
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,11 +52,18 @@ class LauncherFragment : Fragment(), Interaction {
         binding.launcherFragmentViewModel = viewModel
         binding.lifecycleOwner = this
 
+        // set up the animation for the custom progressbar
+        animator = ObjectAnimator.ofFloat(binding.customProgressbar, View.ROTATION, -360F, 0F)
+        animator.duration = 800
+        animator.repeatCount = Animation.INFINITE
+
+
 
 
         initRecyclerView(binding.resultRecyclerView)
         initSearchView(binding.searchView)
-        handleApiState(binding.progressbar, binding.coordinator)
+        handleApiState( binding.coordinator, binding.customProgressbar)
+
 
 
         return binding.root
@@ -103,7 +112,7 @@ class LauncherFragment : Fragment(), Interaction {
     }
 
 
-    private fun handleApiState(progressBar: ProgressBar, coordinator: CoordinatorLayout) {
+    private fun handleApiState(coordinator: CoordinatorLayout, customProgressbar: TextView) {
         // Observe apiStatus
         viewModel.apiStatus.observe(viewLifecycleOwner, Observer {state ->
             when(state) {
@@ -111,11 +120,13 @@ class LauncherFragment : Fragment(), Interaction {
                     Snackbar.make(coordinator, "Check your Connection. There a Network Error!", Snackbar.LENGTH_LONG).show()
                 }
                 ResponseState.LOADING -> {
-                    progressBar.visibility = View.VISIBLE
+                    customProgressbar.visibility = View.VISIBLE
+                    manageAnimation(animator, customProgressbar)
                 }
 
                 ResponseState.DONE -> {
-                    progressBar.visibility = View.INVISIBLE
+                    customProgressbar.visibility = View.INVISIBLE
+                    manageAnimation(animator, customProgressbar)
                 }
                 else -> {
                     Log.i("LauncherFragment", "apiStatus was NULL")
@@ -124,6 +135,14 @@ class LauncherFragment : Fragment(), Interaction {
             }
         })
 
+    }
+    // Would like to test whether the animation actually stops, how to unit test functions in fragments
+    private fun manageAnimation(animator: ObjectAnimator, progressbar: TextView) {
+        if(progressbar.visibility == View.VISIBLE) {
+            animator.start()
+        } else {
+            animator.pause()
+        }
     }
 
 }

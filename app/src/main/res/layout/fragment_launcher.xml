@@ -57,11 +57,15 @@
             tools:context=".main.ui.main.LauncherFragment">
 
 
-            <ProgressBar
-                android:id="@+id/progressbar"
+
+            <TextView
+                android:id="@+id/custom_progressbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="覚"
                 android:visibility="gone"
+                android:textSize="50sp"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
