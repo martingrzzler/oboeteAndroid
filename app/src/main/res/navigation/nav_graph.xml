@@ -12,11 +12,13 @@
         tools:layout="@layout/fragment_launcher" >
         <action
             android:id="@+id/action_launcherFragment_to_wordDetailFragment"
-            app:destination="@id/wordDetailFragment">
+            app:destination="@id/wordDetailFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right">
 
             <argument
                 android:name="word"
-                app:argType="com.martingrzzler.oboeteandroid.main.model.Word"/>
+                app:argType="com.martingrzzler.oboeteandroid.main.model.Word" />
         </action>
 
     </fragment>

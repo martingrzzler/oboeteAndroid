@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="覚"
                 android:visibility="gone"
-                android:textSize="50sp"
+                android:textSize="30sp"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
